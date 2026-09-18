@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,7 @@
     --ink: #14181F;
     --ink-soft: #4B5563;
     --line: #D8DCE3;
+    --grid-line: rgba(20, 24, 31, 0.055);
     --accent: #0B6E76;
     --accent-soft: #E4F1F1;
     --amber: #E2A63B;
@@ -31,6 +32,7 @@
       --ink: #EDEFF2;
       --ink-soft: #A7AEB8;
       --line: #2D3441;
+      --grid-line: rgba(255, 255, 255, 0.045);
       --accent: #3FB6BE;
       --accent-soft: #1A2E30;
       --amber: #E9B85C;
@@ -45,6 +47,7 @@
     --ink: #EDEFF2;
     --ink-soft: #A7AEB8;
     --line: #2D3441;
+    --grid-line: rgba(255, 255, 255, 0.045);
     --accent: #3FB6BE;
     --accent-soft: #1A2E30;
     --amber: #E9B85C;
@@ -57,7 +60,12 @@
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    background-position: -1px -1px;
     color: var(--ink);
     font-family: var(--font-sans);
     line-height: 1.55;
@@ -106,17 +114,38 @@
     padding: 0;
     font-size: 0.92rem;
   }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
   .navlinks a {
     color: var(--ink-soft);
     text-decoration: none;
   }
   .navlinks a:hover { color: var(--accent); }
 
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
   /* Hero */
   .hero {
     padding: 72px 0 64px;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 0.85fr 1.15fr;
     gap: 48px;
     align-items: center;
   }
@@ -136,10 +165,17 @@
   .hero p.lede {
     font-size: 1.08rem;
     color: var(--ink-soft);
-    max-width: 46ch;
-    margin: 0 0 30px;
+    max-width: 54ch;
+    margin: 0 0 18px;
   }
+  .hero p.lede:last-of-type { margin-bottom: 30px; }
   .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .site-note {
+    margin: 18px 0 0;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    max-width: 44ch;
+  }
   .btn {
     display: inline-block;
     padding: 11px 20px;
@@ -154,48 +190,56 @@
   .btn-ghost { border-color: var(--line); color: var(--ink); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Terminal card */
+  /* Terminal card: classic xterm style, fixed regardless of site theme */
   .term {
-    background: var(--term-bg);
-    color: var(--term-ink);
+    background: #000000;
+    color: #33FF66;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
-    border: 1px solid var(--term-line);
+    box-shadow: 0 18px 40px -20px rgba(0,0,0,0.5);
+    border: 1px solid #1A1A1A;
   }
   .term-bar {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 10px 14px;
-    border-bottom: 1px solid var(--term-line);
+    border-bottom: 1px solid #1A1A1A;
+    background: #050505;
   }
-  .dot { width: 10px; height: 10px; border-radius: 50%; opacity: 0.85; }
-  .dot.r { background: #E5645A; }
-  .dot.y { background: #E8B84B; }
-  .dot.g { background: #4FB477; }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #33FF66;
+    box-shadow: 0 0 6px #33FF66;
+  }
   .term-title {
-    margin-left: 8px;
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--ink-soft);
+    color: #2ECC5E;
+    opacity: 0.75;
   }
   .term-body {
     font-family: var(--font-mono);
-    font-size: 0.88rem;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
     padding: 18px 18px 22px;
-    min-height: 220px;
+    height: 260px;
+    overflow: hidden;
     white-space: pre-wrap;
     word-break: break-word;
+    text-shadow: 0 0 3px rgba(51, 255, 102, 0.35);
   }
-  .term-body .prompt { color: #6FCF97; }
-  .term-body .out { color: var(--term-ink); }
-  .term-body .muted { color: #8A93A0; }
+  .term-body .prompt { color: #33FF66; font-weight: 600; }
+  .term-body .path { color: #33FF66; opacity: 0.8; }
+  .term-body .out { color: #1FA24A; }
+  .term-body .muted { color: #1F9E45; }
   .caret {
     display: inline-block;
     width: 7px;
     height: 1em;
-    background: #6FCF97;
+    background: #33FF66;
     vertical-align: text-bottom;
     animation: blink 1s steps(1) infinite;
   }
@@ -328,12 +372,17 @@
 <header class="site">
   <nav class="wrap">
     <a href="#top" class="brand">netstatedata<span>.ca</span></a>
-    <ul class="navlinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul class="navlinks">
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark or light theme">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -342,26 +391,28 @@
     <div>
       <p class="role">Information Technology Professional</p>
       <h1>Jason R. McGinn</h1>
-      <p class="lede">Fifteen plus years of building, securing, and automating IT infrastructure, from small business networks to enterprise cloud migrations. This site runs on infrastructure I configured myself.</p>
+      <p class="lede">I was fourteen when I first got hooked on computers. I kept tearing into how the hardware and files actually worked, and that curiosity never let go. I took every technology class I could find in school after that.</p>
+      <p class="lede">My professional career spans fifteen plus of those years. I've managed dozens of networks, sometimes as the sole administrator and sometimes as part of a team. I've also supported the infrastructure side of several cloud migrations and Dynamics 365 development cycles. This site itself runs on Microsoft Azure, with email and web services I configured myself, DNS routed through my own domain.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:JasonRMcGinn@proton.me">Contact me</a>
+        <a class="btn btn-primary" href="mailto:mcginn@netstatedata.ca">Contact me</a>
         <a class="btn btn-ghost" href="#work">See technical work</a>
       </div>
+      <p class="site-note">This site is a working example built to demonstrate my technical knowledge and thinking to recruiters and hiring managers.</p>
     </div>
-    <div class="term" role="img" aria-label="Terminal window showing a status summary: whoami jason.mcginn, uptime 15+ years in the field, stack Azure, Windows Server, Linux, SQL Server, PowerShell, Python, PHP, Bash, and status all systems operational.">
+    <div class="term" role="img" aria-label="Terminal window running ~/bin/hello.sh, printing a greeting followed by whoami jason.mcginn, uptime 15+ years in the field, stack Azure, Windows Server, Linux, SQL Server, PowerShell, Python, PHP, Bash, and status all systems operational.">
       <div class="term-bar">
-        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="term-title">jason@netstatedata:~</span>
+        <span class="status-dot"></span>
+        <span class="term-title">mcginn@netstatedata:~/bin</span>
       </div>
       <div class="term-body" id="termBody" aria-hidden="true"></div>
     </div>
   </section>
 
-  <section id="about">
+  <section id="philosophy">
     <div class="wrap">
-      <p class="eyebrow">about this domain</p>
-      <h2>A personal testbed, run like production</h2>
-      <p>NetstateData.ca is my own environment for running real services the way I would for an employer or client, not a sandbox I can afford to leave half configured. DNS, mail routing, and hosting for this site run on Azure services I set up and manage myself. I use it to try things properly before I'd ever bring them into someone else's environment.</p>
+      <p class="eyebrow">technical philosophy</p>
+      <h2>How I think about the stack</h2>
+      <p>I believe good technology starts with good policy. Company policy gets enforced through the technology itself, and documented clearly so results stay reliable and repeatable. That same care carries through every layer: the network, the services on it, the operating system, the applications, the files, and the hardware underneath.</p>
     </div>
   </section>
 
@@ -449,9 +500,8 @@
   <div class="wrap">
     <span class="foot-mark">© 2026 Jason R. McGinn</span>
     <ul class="foot-links">
-      <li><a href="mailto:JasonRMcGinn@proton.me">JasonRMcGinn@proton.me</a></li>
+      <li><a href="mailto:mcginn@netstatedata.ca">mcginn@netstatedata.ca</a></li>
       <li><a href="https://www.linkedin.com/in/jason-mcginn-bb350711/" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="tel:5068666752">506-866-6752</a></li>
     </ul>
   </div>
 </footer>
@@ -460,26 +510,24 @@
 (function () {
   var body = document.getElementById('termBody');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var PROMPT = 'mcginn@netstatedata:~/bin$';
 
   var lines = [
-    { type: 'cmd', text: 'whoami' },
-    { type: 'out', text: 'jason.mcginn (IT Infrastructure & Automation)' },
+    { type: 'cmd', text: './hello.sh' },
     { type: 'gap' },
-    { type: 'cmd', text: 'uptime' },
-    { type: 'out', text: '15+ years in the field' },
+    { type: 'out', text: 'Hello from NetstateData.' },
     { type: 'gap' },
-    { type: 'cmd', text: 'cat stack.txt' },
-    { type: 'out', text: 'Azure, Windows Server, Linux, SQL Server' },
-    { type: 'out', text: 'PowerShell, Python, PHP, Bash' },
-    { type: 'gap' },
-    { type: 'cmd', text: './status.sh' },
-    { type: 'out', text: 'All systems operational.' }
+    { type: 'out', text: 'whoami   jason.mcginn (IT Infrastructure & Automation)' },
+    { type: 'out', text: 'uptime   15+ years in the field' },
+    { type: 'out', text: 'stack    Azure, Windows Server, Linux, SQL Server' },
+    { type: 'out', text: '         PowerShell, Python, PHP, Bash' },
+    { type: 'out', text: 'status   All systems operational.' }
   ];
 
   function renderStatic() {
     var html = '';
     lines.forEach(function (l) {
-      if (l.type === 'cmd') html += '<span class="prompt">$</span> ' + l.text + '\n';
+      if (l.type === 'cmd') html += '<span class="prompt">' + PROMPT + '</span> ' + l.text + '\n';
       else if (l.type === 'out') html += '<span class="out">' + l.text + '</span>\n';
       else html += '\n';
     });
@@ -491,37 +539,74 @@
     return;
   }
 
-  var i = 0, j = 0, out = '';
-  function step() {
-    if (i >= lines.length) {
-      body.innerHTML = out;
-      var span = document.createElement('span');
-      span.className = 'caret';
-      body.appendChild(span);
-      return;
+  function runSequence() {
+    var i = 0, j = 0, out = '';
+    function step() {
+      if (i >= lines.length) {
+        body.innerHTML = out;
+        var span = document.createElement('span');
+        span.className = 'caret';
+        body.appendChild(span);
+        return;
+      }
+      var line = lines[i];
+      if (line.type === 'gap') {
+        out += '\n';
+        i++; j = 0;
+        body.innerHTML = out;
+        setTimeout(step, 200);
+        return;
+      }
+      var prefix = line.type === 'cmd' ? '<span class="prompt">' + PROMPT + '</span> ' : '<span class="out">';
+      var suffix = line.type === 'cmd' ? '' : '</span>';
+      var full = line.text;
+      if (j <= full.length) {
+        body.innerHTML = out + prefix + full.slice(0, j) + '<span class="caret"></span>' + suffix;
+        j++;
+        setTimeout(step, line.type === 'cmd' ? 62 : 30);
+      } else {
+        out += prefix + full + suffix + '\n';
+        i++; j = 0;
+        setTimeout(step, line.type === 'cmd' ? 260 : 170);
+      }
     }
-    var line = lines[i];
-    if (line.type === 'gap') {
-      out += '\n';
-      i++; j = 0;
-      body.innerHTML = out;
-      setTimeout(step, 120);
-      return;
-    }
-    var prefix = line.type === 'cmd' ? '<span class="prompt">$</span> ' : '<span class="out">';
-    var suffix = line.type === 'cmd' ? '' : '</span>';
-    var full = line.text;
-    if (j <= full.length) {
-      body.innerHTML = out + prefix + full.slice(0, j) + '<span class="caret"></span>' + suffix;
-      j++;
-      setTimeout(step, line.type === 'cmd' ? 32 : 14);
+    step();
+  }
+
+  setTimeout(runSequence, 300);
+  setInterval(runSequence, 30000);
+})();
+
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var icon = document.getElementById('themeIcon');
+
+  function getStored() {
+    try { return localStorage.getItem('nsd-theme'); } catch (e) { return null; }
+  }
+  function setStored(v) {
+    try { localStorage.setItem('nsd-theme', v); } catch (e) {}
+  }
+  function apply(theme) {
+    if (theme === 'light' || theme === 'dark') {
+      root.setAttribute('data-theme', theme);
+      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
     } else {
-      out += prefix + full + suffix + '\n';
-      i++; j = 0;
-      setTimeout(step, 90);
+      root.setAttribute('data-theme', 'dark');
+      icon.textContent = '☀️';
     }
   }
-  step();
+
+  var stored = getStored();
+  apply(stored);
+
+  toggle.addEventListener('click', function () {
+    var current = root.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    setStored(next);
+    apply(next);
+  });
 })();
 </script>
 
