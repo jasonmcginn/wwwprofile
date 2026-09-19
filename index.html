@@ -321,7 +321,18 @@
     font-size: 0.94rem;
   }
   .skill-group li { padding: 3px 0; }
+  .skill-group p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
 
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
   .note {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -330,6 +341,7 @@
     padding: 24px 26px;
     margin-top: 20px;
   }
+  .notes-grid .note { margin-top: 0; }
   .note p { margin: 0; color: var(--ink); max-width: 62ch; }
 
   footer.site {
@@ -363,6 +375,7 @@
     .hero { grid-template-columns: 1fr; padding-top: 48px; }
     .cards { grid-template-columns: 1fr; }
     .skills { grid-template-columns: 1fr; }
+    .notes-grid { grid-template-columns: 1fr; }
     .navlinks { display: none; }
   }
 </style>
@@ -489,12 +502,17 @@
     <div class="wrap">
       <p class="eyebrow">how I learn</p>
       <h2>How I learn new technology</h2>
-      <div class="note">
-        <p>Every technology I've picked up, from Linux to Azure to AI, started the same way: take it apart, understand it, then decide where it actually earns its place. I don't adopt something because it's trending. This site itself is proof of that approach: I wrote and structured it myself, then used AI to refine the wording, since both the judgment and the tool were needed to get it right.</p>
+      <div class="notes-grid">
+        <div class="note">
+          <p>Every technology I've picked up, from Microsoft and Apple systems to Linux, Azure, databases, and microcontrollers, started the same way. I take it apart and figure out how it actually works, then decide where it earns its place, rather than adopting something because it's trending. This site itself is proof of that approach: I wrote and structured it myself, then used AI to refine the wording, since both the judgment and the tool were needed to get it right.</p>
+        </div>
+        <div class="note">
+          <p>I also learn a great deal through teaching others. Imagining how I'd explain something out loud, and anticipating the questions someone might ask, forces a level of understanding that just reading or doing doesn't. People inevitably ask things I hadn't considered. When that happens, I write the question down and read it back to them, to make sure I understand their perspective before I try to answer it.</p>
+        </div>
       </div>
       <div class="skills" style="margin-top: 28px;">
         <div class="skill-group">
-          <h3>Reading this year</h3>
+          <h3>Books I've completed this year</h3>
           <ul>
             <li>Microsoft 365 Copilot Adoption, by Mark Smith</li>
             <li>Agentic Artificial Intelligence, by Pascal Bornet</li>
@@ -517,9 +535,7 @@
         </div>
         <div class="skill-group">
           <h3>Learning path</h3>
-          <ul>
-            <li>AI-900, then DB-900, then Security+</li>
-          </ul>
+          <p>This is the start of a five year learning plan. AI-900 helps put a formal framework around the AI knowledge I'm building and the experiences ascertained through hands on approaches. DB-900 demonstrates core concepts in data management, the foundation that data and AI both run on. Security+ does the same for security: understanding realistic, real world concerns while connecting different technologies across a network so they can actually work together safely.</p>
         </div>
         <div class="skill-group">
           <h3>Certifications</h3>
